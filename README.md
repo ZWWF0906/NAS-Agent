@@ -1,71 +1,292 @@
 # NAS-Agent
 
-一个具备远程访问、服务托管、自动维护能力，并且可以接入 AI Agent 的个人家庭服务器节点。
+> 将普通 NAS 升级为可被 AI 管理的个人家庭服务器节点。
 
-## 功能特性
+```{=html}
+<p align="center">
+```
+基于 **FastAPI + Docker + DeepSeek API** 构建的智能 NAS 管理代理系统。
 
-- **远程安全访问**：基于 Tailscale 组网，无需公网 IP 即可安全连接
-- **Docker 服务自动化部署**：一键启动 Portainer、Alist、Gitea、Vaultwarden
-- **AI Agent 系统监控**：实时监控 CPU、内存、磁盘、容器状态
-- **硬盘健康检测**：读取 S.M.A.R.T. 数据，提前预警磁盘故障
-- **Web 服务响应监控**：检查 Alist、Gitea、Vaultwarden 的 HTTP 状态
-- **SSH 安全事件统计**：统计暴力破解尝试次数
-- **白名单命令执行**：允许安全地远程管理容器
+通过统一 RESTful API，将系统监控、容器管理、安全检测等能力开放给 AI
+大模型， 实现自然语言驱动的服务器运维。
 
-## 架构
+```{=html}
+</p>
+```
 
-\`\`\`
-用户 → Tailscale 安全网络 → NAS-Agent
-                              ├── 存储层 (NAS)
-                              └── 应用层 (Docker + Agent)
-\`\`\`
+------------------------------------------------------------------------
 
-## 快速开始
+## ✨ 项目介绍
 
-1. 克隆仓库
-   \`\`\`bash
-   git clone https://github.com/ZWWF0906/NAS-Agent.git
-   \`\`\`
+NAS-Agent 是一个面向个人 Homelab 环境设计的 AI 运维代理。
 
-2. 修改配置文件
-   - 将 `docker-compose.yml` 中的 `API_KEY` 替换为你自己的密钥
-   - 将 `ai_agent.py` 中的 `DEEPSEEK_API_KEY` 和 `AGENT_API_KEY` 替换为你的真实密钥
+它连接普通 NAS 与 AI 大模型，使用户能够通过自然语言：
 
-3. 启动服务
-   \`\`\`bash
-   cd NAS-Agent
-   docker compose up -d
-   \`\`\`
+-   查询服务器状态
+-   分析系统健康情况
+-   查看 Docker 服务日志
+-   检测磁盘与网络状态
+-   获取智能运维建议
 
-4. 运行 AI 对话脚本
-   \`\`\`bash
-   export DEEPSEEK_API_KEY="你的DeepSeek密钥"
-   export AGENT_API_KEY="你的Agent密钥"
-   python3 ai_agent.py
-   \`\`\`
+目标：
 
-## 目录结构
+> 让普通家庭服务器具备 AI 管理能力。
 
-\`\`\`
-├── agent/            # Agent 核心代码
+------------------------------------------------------------------------
+
+# 🚀 功能特性
+
+## 📊 系统监控
+
+  功能           描述
+  -------------- -----------------------------------------
+  本地状态监控   获取 CPU、内存、磁盘、Docker 等基础状态
+  NAS 远程监控   通过 SSH 获取 NAS 运行状态
+  磁盘健康监控   读取 S.M.A.R.T 数据，提前发现磁盘风险
+  温度监控       实时检测系统温度传感器
+  网络检测       检测网关、NAS、公网 DNS 连通性与延迟
+  磁盘 I/O       统计磁盘读写负载
+
+## 🐳 服务管理
+
+  功能           描述
+  -------------- -----------------------------------
+  服务健康检查   检测 Web 服务 HTTP 状态和响应时间
+  Docker 日志    获取指定容器运行日志
+  命令执行       基于白名单的安全命令执行
+
+## 🔐 安全检测
+
+-   SSH 登录失败统计
+-   API Key 身份认证
+-   Tailscale 私有网络访问
+-   命令执行白名单限制
+
+## 🤖 AI 对话
+
+支持：
+
+-   中文自然语言查询
+-   系统健康综合分析
+-   多模块数据汇总
+-   AI 运维建议
+
+------------------------------------------------------------------------
+
+# 🏗 系统架构
+
+``` text
+                         用户
+
+                           │
+
+                  Tailscale 安全网络
+
+                           │
+
+                       NAS-Agent
+
+              ┌────────────┴────────────┐
+
+              │                         │
+
+        存储层 NAS                 应用层 Docker
+
+              │                         │
+
+        文件服务                 Agent 服务
+```
+
+------------------------------------------------------------------------
+
+# 🛠 技术栈
+
+  分类       技术
+  ---------- ----------------
+  操作系统   Debian 13
+  容器平台   Docker
+  后端框架   Python FastAPI
+  网络访问   Tailscale
+  AI 模型    DeepSeek API
+  通信方式   RESTful API
+
+------------------------------------------------------------------------
+
+# 📦 快速开始
+
+## 克隆项目
+
+``` bash
+git clone https://github.com/ZWWF0906/NAS-Agent.git
+cd NAS-Agent
+```
+
+## 配置密钥
+
+修改：
+
+``` text
+docker-compose.yml
+ai_agent.py
+```
+
+配置：
+
+``` text
+API_KEY
+DEEPSEEK_API_KEY
+AGENT_API_KEY
+```
+
+请勿提交真实密钥到 GitHub。
+
+## 启动服务
+
+``` bash
+docker compose up -d
+```
+
+## 启动 AI 对话
+
+``` bash
+export DEEPSEEK_API_KEY="你的DeepSeek密钥"
+export AGENT_API_KEY="你的Agent密钥"
+
+python3 ai_agent.py
+```
+
+输入：
+
+``` text
+全面检查系统健康状态
+```
+
+即可开始 AI 运维。
+
+------------------------------------------------------------------------
+
+# 📡 API 文档
+
+所有接口需要：
+
+``` text
+Authorization: Bearer <API_KEY>
+```
+
+## 基础接口
+
+  接口                    方法   描述
+  ----------------------- ------ ----------------------
+  `/api/status`           GET    本地系统状态
+  `/api/nas/status`       GET    NAS 远程状态
+  `/api/execute`          POST   执行白名单命令
+  `/api/logs/{service}`   GET    获取 Docker 服务日志
+
+## 健康检查
+
+  接口                        方法   描述
+  --------------------------- ------ ------------------
+  `/api/health/disks`         GET    磁盘 SMART 信息
+  `/api/health/services`      GET    Web 服务健康状态
+  `/api/health/temperature`   GET    系统温度检测
+  `/api/health/network`       GET    网络连通性检测
+  `/api/health/diskio`        GET    磁盘 I/O 状态
+
+## 安全检测
+
+  接口                   方法   描述
+  ---------------------- ------ ------------------
+  `/api/security/sshd`   GET    SSH 登录失败统计
+
+------------------------------------------------------------------------
+
+# 📁 项目结构
+
+``` text
+NAS-Agent
+
+├── agent/
 │   ├── Dockerfile
 │   ├── requirements.txt
 │   └── app/
-│       └── main.py   # FastAPI 应用
-├── ai_agent.py       # AI 对话脚本
+│       └── main.py
+
+├── ai_agent.py
 ├── docker-compose.yml
 ├── .gitignore
 ├── LICENSE
 └── README.md
-\`\`\`
+```
 
-## 技术栈
+------------------------------------------------------------------------
 
-- Debian 13 + Docker
-- Python FastAPI
-- Tailscale
-- DeepSeek API
+# 🔒 安全设计
 
-## 许可证
+## 网络隔离
 
-本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+Agent 默认运行于 Tailscale 私有网络环境，避免直接暴露公网。
+
+## API认证
+
+所有接口需要 API Key 验证。
+
+## 命令保护
+
+系统命令执行采用白名单机制，防止误操作。
+
+## 数据保护
+
+建议：
+
+-   定期备份 NAS 数据
+-   保存重要配置文件
+-   定期检查磁盘健康状态
+
+------------------------------------------------------------------------
+
+# 📚 依赖
+
+``` text
+fastapi
+uvicorn
+docker
+paramiko
+psutil
+aiohttp
+openai
+```
+
+完整依赖：
+
+``` text
+agent/requirements.txt
+```
+
+------------------------------------------------------------------------
+
+# 🤝 合作伙伴
+
+### DeepSeek
+
+AI 模型能力支持。
+
+### TGW_Sakikoo
+
+项目联合发起，技术支持
+
+------------------------------------------------------------------------
+
+# 📄 License
+
+本项目采用 MIT License。
+
+------------------------------------------------------------------------
+
+# ⭐ 项目愿景
+
+NAS-Agent 探索：
+
+> AI + Homelab + 自动化运维
+
+让个人服务器不仅能够存储数据，
+还能理解需求、主动发现问题，并协助用户维护自己的数字世界。
