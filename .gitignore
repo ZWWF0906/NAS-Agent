@@ -1,0 +1,35 @@
+# 备份的真实配置文件（包含密钥）
+*.real.yml
+*.real.py
+
+# 敏感私密文件
+agent/app/id_rsa
+*.pem
+*.key
+
+# Docker 运行时数据（不需要上传）
+portainer/data/*
+alist/data/*
+gitea/data/*
+vaultwarden/data/*
+backups/*
+
+# Python 虚拟环境
+venv/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 环境变量文件
+.env
+agent/app/id_rsa
+
+# 任何备份/临时文件
+*.save
+*.bak
+*.swp
+*~
+
+# 私钥文件
+agent/app/id_rsa
