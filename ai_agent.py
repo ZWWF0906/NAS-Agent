@@ -5,7 +5,7 @@ from openai import OpenAI
 
 # ============ 配置 ============
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "your-AI-api-key")
-AGENT_API_URL = "http://100.100.138.38:5050"
+AGENT_API_URL = f"http://{os.getenv('AGENT_HOST_IP', 'your-host-ip')}:5050"
 AGENT_API_KEY = os.getenv("AGENT_API_KEY", "your-agent-api-key")
 
 client = OpenAI(

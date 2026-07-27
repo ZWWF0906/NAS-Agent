@@ -12,7 +12,8 @@ from typing import Optional
 
 app = FastAPI()
 API_KEY = os.getenv("API_KEY", "changeme")
-NAS_IP = os.getenv("NAS_IP", "100.93.189.99")
+AGENT_HOST_IP = os.getenv("AGENT_HOST_IP", "your-host-ip")
+NAS_IP = os.getenv("NAS_IP", "your-nas-ip")
 NAS_USER = os.getenv("NAS_USER", "root")
 
 def verify_key(authorization: str = Header(None)):
@@ -225,9 +226,9 @@ def _parse_smart_data(raw_text):
 async def health_services():
     import aiohttp
     services = {
-        "alist": "http://100.100.138.38:5244",
-        "gitea": "http://100.100.138.38:3000",
-        "vaultwarden": "http://100.100.138.38:8081",
+        "alist": f"http://{AGENT_HOST_IP}:5244",
+        "gitea": f"http://{AGENT_HOST_IP}:3000",
+        "vaultwarden": f"http://{AGENT_HOST_IP}:8081",
     }
     health = {}
     async with aiohttp.ClientSession() as session:
@@ -282,7 +283,7 @@ async def health_temperature():
 async def health_network():
     targets = {
         "gateway": "192.168.1.1",
-        "tailscale_nas": "100.93.189.99",
+        "tailscale_nas": NAS_IP,
         "dns_public": "8.8.8.8",
         "dns_cn": "223.5.5.5"
     }
