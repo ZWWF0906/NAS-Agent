@@ -112,7 +112,7 @@ NAS-Agent 是一个面向个人 Homelab 环境设计的 AI 运维代理。
 - `DEEPSEEK_API_KEY`
 - `AGENT_API_KEY`
 
-**请勿提交真实密钥到 GitHub。**
+**请勿泄露真实密钥到公开网络上。**
 
 ## 启动服务
 
